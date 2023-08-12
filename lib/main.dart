@@ -13,26 +13,78 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int count = 0;
+
+  // LIFECYCLE METHODS
+  // initState() method is called once when the widget is initialized
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  // dispose() method runs when the widget is removed from the UI
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-              shadowColor: const Color.fromARGB(255, 67, 89, 200),
-              title: const Text("My App")),
-          body: Stack(children: [
-            Container(
-              color: Colors.amber,
-              width: 100,
-              height: 100,
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            setState(() {
+              count++;
+            });
+          },
+        ),
+        body: Center(
+          child: Text('$count', style: TextStyle(fontSize: 80)),
+        ),
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: const Text('Flutter is Fun!'),
+      ),
+      body: ElevatedButton(
+        child: Text('Navigate'),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => AboutScreen(),
             ),
-            const Icon(Icons.access_alarm),
-            const Icon(Icons.tab),
-            const Icon(Icons.leaderboard),
-            const Icon(Icons.person),
-            const Text('Hi from the body 👋🏻👋🏻👋🏻'),
-            Text('$count')
-          ])),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class AboutScreen extends StatelessWidget {
+  const AboutScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('about'),
+      ),
     );
   }
 }
