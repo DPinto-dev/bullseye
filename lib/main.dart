@@ -1,90 +1,65 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MaterialApp(
+      title: 'Bullseye',
+      home: GamePage(),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class GamePage extends StatefulWidget {
+  const GamePage({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<GamePage> createState() => _GamePageState();
 }
 
-class _MyAppState extends State<MyApp> {
-  int count = 0;
-
-  // LIFECYCLE METHODS
-  // initState() method is called once when the widget is initialized
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  // dispose() method runs when the widget is removed from the UI
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            setState(() {
-              count++;
-            });
-          },
-        ),
-        body: Center(
-          child: Text('$count', style: TextStyle(fontSize: 80)),
-        ),
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({
-    Key? key,
-  }) : super(key: key);
-
+class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: const Text('Flutter is Fun!'),
-      ),
-      body: ElevatedButton(
-        child: Text('Navigate'),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => AboutScreen(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Hello from BullsEye APP',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: Colors.green),
             ),
-          );
-        },
+            TextButton(
+              onPressed: () {
+                _showAlert(context);
+              },
+              child: const Text('Tap me here!',
+                  style: TextStyle(color: Colors.blue)),
+            ),
+          ],
+        ),
       ),
     );
   }
-}
 
-class AboutScreen extends StatelessWidget {
-  const AboutScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('about'),
-      ),
-    );
+  void _showAlert(BuildContext context) {
+    var okButton = TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+          print('Dismiss pressed!');
+        },
+        child: const Text('Dismiss'));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Hello there!'),
+            content: const Text('This is my first popup!'),
+            actions: [okButton],
+            elevation: 5,
+          );
+        });
   }
 }
