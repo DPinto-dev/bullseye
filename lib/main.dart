@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'prompt.dart';
 import 'control.dart';
 import 'score.dart';
+import 'game_model.dart';
 
 void main() {
   runApp(const BullsEyeApp());
@@ -30,6 +31,14 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  late GameModel _model;
+
+  @override
+  void initState() {
+    super.initState();
+    _model = GameModel(50);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +47,7 @@ class _GamePageState extends State<GamePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Prompt(targetValue: 100),
-            const Control(),
-            const Score(totalScore: 100, round: 1),
+            Control(model: _model),
             TextButton(
               onPressed: () {
                 _showAlert(context);
@@ -47,6 +55,7 @@ class _GamePageState extends State<GamePage> {
               child: const Text('Tap me here!',
                   style: TextStyle(color: Colors.blue)),
             ),
+            Score(totalScore: _model.totalScore, round: _model.round),
           ],
         ),
       ),
@@ -65,7 +74,7 @@ class _GamePageState extends State<GamePage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Hello there!'),
-            content: const Text('This is my first popup!'),
+            content: Text('The slider\'s value is ${_model.current}'),
             actions: [okButton],
             elevation: 5,
           );
