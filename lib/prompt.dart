@@ -14,7 +14,8 @@ class Prompt extends StatelessWidget {
             style: LabelTextStyle.bodyText1(context)),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text('$targetValue'),
+          child:
+              Text('$targetValue', style: TargetTextStyle.bodyText1(context)),
         ),
       ],
     );

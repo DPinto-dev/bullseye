@@ -5,6 +5,8 @@ import 'prompt.dart';
 import 'control.dart';
 import 'score.dart';
 import 'game_model.dart';
+import 'hitme_button.dart';
+import 'styled_button.dart';
 
 void main() {
   runApp(const BullsEyeApp());
@@ -55,19 +57,28 @@ class _GamePageState extends State<GamePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Prompt(targetValue: _model.target),
-              Control(model: _model),
-              TextButton(
-                onPressed: () {
-                  _showAlert(context);
-                },
-                child:
-                    const Text('HIT ME!', style: TextStyle(color: Colors.blue)),
+              Padding(
+                padding: const EdgeInsets.only(top: 48.0, bottom: 32.0),
+                child: Prompt(targetValue: _model.target),
               ),
-              Score(
-                totalScore: _model.totalScore,
-                round: _model.round,
-                onStartOver: _startNewGame,
+              Control(model: _model),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 16.0,
+                ),
+                child: HitmeButton(
+                    text: 'HIT ME!',
+                    onPressed: () {
+                      _showAlert(context);
+                    }),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Score(
+                  totalScore: _model.totalScore,
+                  round: _model.round,
+                  onStartOver: _startNewGame,
+                ),
               ),
             ],
           ),
@@ -123,16 +134,17 @@ class _GamePageState extends State<GamePage> {
   }
 
   void _showAlert(BuildContext context) {
-    var okButton = TextButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-          setState(() {
-            _model.totalScore += _pointsForCurrentRound();
-            _model.target = _newTargetValue();
-            _model.round++;
-          });
-        },
-        child: const Text('Dismiss'));
+    var okButton = StyledButton(
+      icon: Icons.close,
+      onPressed: () {
+        Navigator.of(context).pop();
+        setState(() {
+          _model.totalScore += _pointsForCurrentRound();
+          _model.target = _newTargetValue();
+          _model.round++;
+        });
+      },
+    );
     showDialog(
         context: context,
         builder: (BuildContext context) {
